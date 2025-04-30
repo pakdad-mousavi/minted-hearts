@@ -2,7 +2,7 @@ import express from "express";
 import { body } from "express-validator";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import db from "../db.js";
+import User from "../models/User.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -36,33 +36,31 @@ router.post(
   (req, res) => {
     const { email, password } = req.body;
 
-    db.serialize(() => {
-      // Try to get user
-      db.get("SELECT * FROM User WHERE email = ?", [email], (err, user) => {
-        if (err) {
-          res.status(500).json({ error: "Database error" });
-        }
-        if (user) {
-          // Hash entered password and compare
-          const userHash = user.password;
-          const isValid = bcrypt.compareSync(password, userHash);
-          if (isValid) {
-            // Create a jwt token for user
-            const token = jwt.sign(
-              { id: user.id, email: user.email },
-              process.env.JWT_SECRET,
-              { expiresIn: "30d" }
-            );
-            res.status(200).json({ token });
-          } else {
-            // Wrong password
-            res.status(400).json({ error: "Password is incorrect" });
-          }
+    // Try to get user
+    try {
+      const user = User.findOne({ email }).lean();
+      if (user) {
+        // Hash entered password and compare
+        const isValid = bcrypt.compareSync(password, user.password);
+        if (isValid) {
+          // Create a jwt token for user
+          const token = jwt.sign(
+            { id: user.id, email: user.email },
+            process.env.JWT_SECRET,
+            { expiresIn: "30d" }
+          );
+          res.status(200).json({ token });
         } else {
-          res.status(400).json({ error: "Email is not registered" });
+          // Wrong password
+          res.status(400).json({ error: "Password is incorrect" });
         }
-      });
-    });
+      } else {
+        res.status(400).json({ error: "Email is not registered" });
+      }
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: "Internal server error" });
+    }
   }
 );
 
@@ -88,17 +86,12 @@ router.post(
       const hashedPassword = await bcrypt.hash(password, 10);
 
       // Store in database
-      db.run(
-        "INSERT INTO User (email, password) VALUES (?, ?)",
-        [email, hashedPassword],
-        (err) => {
-          if (err) {
-            res.status(400).json({ error: "User already exists" });
-          } else {
-            res.status(201).json({ message: "User created successfully" });
-          }
-        }
-      );
+      const userAlreadyExists = await User.exists({ email });
+      if (userAlreadyExists) {
+        res.status(400).json({ error: "User already exists" });
+      } else {
+        await User.insertOne({ email, password: hashedPassword });
+      }
     } catch (err) {
       console.log(err);
       res.status(500).json({ error: "Internal server error" });
