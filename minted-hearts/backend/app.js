@@ -13,7 +13,6 @@ app.use(express.json());
 // Connect to mongodb database via mongoose
 (async () => {
   try {
-    process.env.NODE_OPTIONS = '--tls-min-v1.2';
     await mongoose.connect(process.env.DB_CONNECTION_STRING);
     await initializeDb();
     console.log("Connected to database successfully.");
