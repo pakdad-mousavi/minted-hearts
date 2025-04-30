@@ -33,12 +33,12 @@ router.post(
       .withMessage("Email field is invalid"),
     body("password").notEmpty().withMessage("Password field is empty"),
   ]),
-  (req, res) => {
+  async (req, res) => {
     const { email, password } = req.body;
 
     // Try to get user
     try {
-      const user = User.findOne({ email }).lean();
+      const user = await User.findOne({ email }).lean();
       if (user) {
         // Hash entered password and compare
         const isValid = bcrypt.compareSync(password, user.password);
@@ -91,6 +91,7 @@ router.post(
         res.status(400).json({ error: "User already exists" });
       } else {
         await User.insertOne({ email, password: hashedPassword });
+        res.status(201).json({ message: "Successfully registered." });
       }
     } catch (err) {
       console.log(err);
@@ -100,15 +101,15 @@ router.post(
 );
 
 // TEMPORARY DELETE FOR TESTING ONLY
-router.post("/delete", (req, res) => {
+router.post("/delete", async (req, res) => {
   const { email } = req.body;
-  db.run("DELETE FROM User WHERE email = ?", [email], (err) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send("deleted record");
-    }
-  });
+  try {
+    await User.deleteOne({ email });
+    res.status(204).json({ message: "Successfully deleted " + email });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 export default router;
