@@ -1,4 +1,8 @@
 import { useState, useEffect } from "react";
+import img1 from "./../../assets/hall_of_fame/3551911.jpg"
+import img2 from "./../../assets/hall_of_fame/7309681.jpg"
+import img3 from "./../../assets/hall_of_fame/9334176.jpg"
+import img4 from "./../../assets/hall_of_fame/9440461.jpg"
 
 const HallOfFame = () => {
   const [leaders, setLeaders] = useState([]);
@@ -9,37 +13,27 @@ const HallOfFame = () => {
         {
           id: 1,
           name: "Иван Иванов",
-          role: "Топ-1 по пожертвованиям",
-          stars: 5,
-          avatar: "./../../assets/hall_of_fame/7309681.jpg",
+          avatar: img1,
         },
         {
           id: 2,
           name: "Анна Петрова",
-          role: "Лучший волонтёр",
-          stars: 4,
-          avatar: "./../../assets/hall_of_fame/3551911.jpg",
+          avatar: img2,
         },
         {
           id: 3,
           name: "Сергей Сидоров",
-          role: "Активный участник",
-          stars: 3,
-          avatar: "./../../assets/hall_of_fame/9334176.jpg",
+          avatar: img3,
         },
         {
           id: 4,
           name: "Сергей Сидоров",
-          role: "Активный участник",
-          stars: 3,
-          avatar: "./../../assets/hall_of_fame/9440461.jpg",
+          avatar: img4,
         },
         {
           id: 5,
           name: "Сергей Сидоров",
-          role: "Активный участник",
-          stars: 3,
-          avatar: "./../../assets/hall_of_fame/7309681.jpg",
+          avatar: img2,
         },
       ];
       setLeaders(mockData);
@@ -48,22 +42,21 @@ const HallOfFame = () => {
   }, []);
 
   return (
-    <div className="max-w-ful">
-      <div className="grid grid-cols-1 md:grid-cols-6 gap-12 ">
+    <div className=" max-w-ful mx-10">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-12 ">
         {leaders.map((person) => (
           <div
             key={person.id}
-            className=" hover:border-yellow-400 scale-105 transition-transform duration-300"
+            className=" p-2 hover:p-0 "
           >
-            <div className=" bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 p-4 text-center">
+            <div className="w-full overflow-hidden rounded-2xl  text-center">
               <img
                 src={person.avatar}
                 alt={person.name}
-                className="w-full h-full object-fit"
+                className="w-full object-fit"
               />
             </div>
             <h3 className=" font-bold">{person.name}</h3>
-            <p className="text-gray-600">{person.role}</p>
           </div>
         ))}
       </div>

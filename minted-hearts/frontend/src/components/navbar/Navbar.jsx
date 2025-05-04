@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import SignIn from "./../../pages/SignIn"; 
 import SignUp from "./../../pages/SignUp";
+import logo from "./heart-shine-svgrepo-com (1).svg"
 
 export default function Navbar() {
   const [isSignInOpen, setSignInOpen] = useState(false);
@@ -14,11 +15,11 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="flex justify-between items-center px-32 py-4 w-full h-18 bg-[#101111]">
+      <div className=" flex justify-between items-center px-32 py-4 w-full h-18 bg-[#101111] font-[RobotoNew]">
         <div className="w-auto h-10">
           <img
             className="h-10 w-auto"
-            src="./heart-shine-svgrepo-com (1).svg"
+            src= {logo}
             alt="logo"
           />
         </div>
