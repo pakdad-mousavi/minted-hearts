@@ -120,7 +120,7 @@ const SignUp = ({onSwitch}) => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gray-900 border-1  border-black hover:bg-white hover:text-gray-900  text-white px-10 py-3 my-2 rounded-lg font-medium flex items-center justify-center transition duration-200"
+              className="w-full bg-gray-900 border-1  border-black hover:cursor-pointer  hover:bg-white hover:text-gray-900  text-white px-10 py-3 my-2 rounded-lg font-medium flex items-center justify-center transition duration-200"
             >
               {isLoading ? (
                 <>
@@ -138,7 +138,7 @@ const SignUp = ({onSwitch}) => {
               Already have an account?{" "}
               <button
                 onClick={onSwitch}
-                className="text-blue-800 hover:text-blue-400 font-medium"
+                className="text-blue-800 hover:cursor-pointer  hover:text-blue-400 font-medium"
               >
                 Sign in
               </button>

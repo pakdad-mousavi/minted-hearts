@@ -28,13 +28,12 @@ const SignIn = ({onSwitch}) => {
     <div className="h-screen  flex items-center justify-center ">
       <div className="w-full max-w-md">
         <div className="bg-white border  rounded-xl overflow-hidden">
-          {/* Header */}
+
           <div className="p-8 text-center border-b border-gray-800">
             <h2 className="text-3xl font-bold text-gray-900 mb-2">Welcome</h2>
             <p className="text-gray-900">Sign in to your account</p>
           </div>
 
-          {/* Form */}
           <form onSubmit={handleSubmit} className="p-8 space-y-6">
             <div>
               <label className="block text-black mb-2">Email</label>
@@ -79,7 +78,7 @@ const SignIn = ({onSwitch}) => {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-700 rounded bg-gray-800"
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 hover:cursor-pointer  border-gray-700 rounded bg-gray-800"
                 />
                 <label
                   htmlFor="remember-me"
@@ -101,7 +100,7 @@ const SignIn = ({onSwitch}) => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gray-900 border-1  border-black hover:bg-white hover:text-gray-900 text-white py-3 rounded-lg font-medium flex items-center justify-center space-x-2 transition duration-200"
+              className="w-full bg-gray-900 border-1  border-black hover:cursor-pointer  hover:bg-white hover:text-gray-900 text-white py-3 rounded-lg font-medium flex items-center justify-center space-x-2 transition duration-200"
             >
               {isLoading ? (
                 <>
@@ -119,7 +118,7 @@ const SignIn = ({onSwitch}) => {
               Don't have an account?{" "}
                 <button
                   onClick={onSwitch}
-                  className="text-blue-800 hover:text-blue-400 font-medium"
+                  className="text-blue-800 hover:text-blue-400 hover:cursor-pointer  font-medium"
                 >
                   Sign up
                 </button>
